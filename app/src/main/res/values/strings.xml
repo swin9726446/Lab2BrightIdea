@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lab2BrightIdea</string>
+    <string name="light_Off">LIGHT is OFF</string>
+    <string name="light_On">LIGHT is ON</string>
+</resources>
