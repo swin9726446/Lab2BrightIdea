@@ -3,6 +3,7 @@ package com.example.a9726446.lab2brightidea;
 import org.junit.Rule;
 import org.junit.Test;
 
+import android.content.pm.ActivityInfo;
 import android.support.test.rule.ActivityTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -21,10 +22,18 @@ public class UITestSwitch {
     public ActivityTestRule<MainActivity> mainActivityActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void UITestToggleLight_OFF_ON(){
+    public void UITestToggleLight(){
         //One can't match by srcCompat, so I'm going by content descr instead. Oh well.
         onView(withId(R.id.imgLight)).check(matches(withContentDescription(R.string.light_Off)));
         onView(withId(R.id.imgLight)).perform(click());
+        onView(withId(R.id.imgLight)).check(matches(withContentDescription(R.string.light_On)));
+    }
+
+    @Test
+    public void UIRotationTest(){
+        //again, checking by descr instead of image.
+        onView(withId(R.id.imgLight)).perform(click());
+        mainActivityActivityTestRule.getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         onView(withId(R.id.imgLight)).check(matches(withContentDescription(R.string.light_On)));
     }
 }

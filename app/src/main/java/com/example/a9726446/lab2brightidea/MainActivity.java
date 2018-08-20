@@ -1,6 +1,5 @@
 package com.example.a9726446.lab2brightidea;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void toggleLight() {
-        ImageView ivLight = (ImageView) findViewById(R.id.imgLight);
+        ImageView ivLight = findViewById(R.id.imgLight);
         //Comparing drawables doesn't work. Let's just take the cheat's way and record the state separately. :/
 
         /*Drawable dLight = ivLight.getDrawable();
         Drawable dLightOn = getDrawable(R.drawable.lightbulb_on);
         Drawable dLightOff = getDrawable(R.drawable.lightbulb_off);*/
-        //if (ivLight.getDrawable() == getDrawable(R.drawable.lightbulb_on)) {
+        //if (ivLight.getDrawable() == getDrawable(R.drawable.lightbulb_on)) { //Breakpoint went here.
         if (isLightOn){
             //If light is on, turn it off!
             Log.d("LightSwitch","Turning lamp off...");
@@ -52,10 +51,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initaliseUI();
+        initaliseUI(savedInstanceState);
     }
 
-    private void initaliseUI() {
+    @Override
+    protected void onSaveInstanceState(Bundle b){
+        b.putBoolean("LightState", isLightOn);
+        super.onSaveInstanceState(b);
+    }
+
+    private void initaliseUI(Bundle b) {
         findViewById(R.id.imgLight).setOnTouchListener(touchListener);
+
+        if (b == null) return; //move along, nothing to see here.
+
+        //Flip the value, so you can then 'toggle' it back to what it should be! >_>
+        isLightOn = !b.getBoolean("LightState");
+        toggleLight();
     }
 }
